@@ -111,7 +111,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "HttpServerLocation",
-						"relativeUrl": "*"
+						"relativeUrl": "*.csv"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
