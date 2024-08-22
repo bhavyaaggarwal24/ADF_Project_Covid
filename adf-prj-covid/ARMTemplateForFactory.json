@@ -75,20 +75,45 @@
 							{
 								"referenceName": "dataset_source_cases_deaths",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"sourceRelativeURL": {
+										"value": "@variables('sourceRelativeURL')",
+										"type": "Expression"
+									}
+								}
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "dataset_target_cases_deaths",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"targetdirectory": {
+										"value": "@variables('targetdirectory')",
+										"type": "Expression"
+									},
+									"filename": {
+										"value": "@variables('filename')",
+										"type": "Expression"
+									}
+								}
 							}
 						]
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"targetdirectory": {
+						"type": "String"
+					},
+					"filename": {
+						"type": "String"
+					},
+					"sourceRelativeURL": {
+						"type": "String"
+					}
 				},
 				"annotations": []
 			},
@@ -106,12 +131,20 @@
 					"referenceName": "linked_service_External_link_http",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"sourceRelativeURL": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "HttpServerLocation",
-						"relativeUrl": "*.csv"
+						"relativeUrl": {
+							"value": "@dataset().sourceRelativeURL",
+							"type": "Expression"
+						}
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -138,11 +171,27 @@
 					"referenceName": "sourcedatacovid",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"targetdirectory": {
+						"type": "string"
+					},
+					"filename": {
+						"type": "String"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@dataset().targetdirectory",
+							"type": "Expression"
+						},
 						"container": "source"
 					},
 					"columnDelimiter": ",",
