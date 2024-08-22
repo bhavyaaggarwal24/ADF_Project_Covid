@@ -50,44 +50,17 @@
 				"inputs": [
 					{
 						"referenceName": "dataset_source_cases_deaths",
-						"type": "DatasetReference",
-						"parameters": {
-							"sourceRelativeURL": {
-								"value": "@variables('sourceRelativeURL')",
-								"type": "Expression"
-							}
-						}
+						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "dataset_target_cases_deaths",
-						"type": "DatasetReference",
-						"parameters": {
-							"targetdirectory": {
-								"value": "@variables('targetdirectory')",
-								"type": "Expression"
-							},
-							"filename": {
-								"value": "@variables('filename')",
-								"type": "Expression"
-							}
-						}
+						"type": "DatasetReference"
 					}
 				]
 			}
 		],
-		"variables": {
-			"targetdirectory": {
-				"type": "String"
-			},
-			"filename": {
-				"type": "String"
-			},
-			"sourceRelativeURL": {
-				"type": "String"
-			}
-		},
 		"annotations": []
 	}
 }
