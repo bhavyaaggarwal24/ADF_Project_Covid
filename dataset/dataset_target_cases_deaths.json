@@ -1,5 +1,5 @@
 {
-	"name": "cases_deaths",
+	"name": "dataset_target_cases_deaths",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "sourcedatacovid",

@@ -1,5 +1,5 @@
 {
-	"name": "dataset_cases_deaths",
+	"name": "dataset_source_cases_deaths",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "linked_service_External_link_http",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "cases_deaths.csv/"
+				"relativeUrl": "*"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
