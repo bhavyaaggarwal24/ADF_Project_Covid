@@ -5,11 +5,27 @@
 			"referenceName": "sourcedatacovid",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"targetdirectory": {
+				"type": "string"
+			},
+			"filename": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@dataset().targetdirectory",
+					"type": "Expression"
+				},
 				"container": "source"
 			},
 			"columnDelimiter": ",",
