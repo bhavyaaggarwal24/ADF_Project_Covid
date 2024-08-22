@@ -188,7 +188,7 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"sourceRelativeURL": {
-										"value": "@variables('sourceRelativeURL')",
+										"value": "@pipeline().parameters.sourceRelativeURL",
 										"type": "Expression"
 									}
 								}
@@ -200,11 +200,11 @@
 								"type": "DatasetReference",
 								"parameters": {
 									"targetdirectory": {
-										"value": "@variables('targetdirectory')",
+										"value": "@pipeline().parameters.targetdirectory",
 										"type": "Expression"
 									},
 									"filename": {
-										"value": "@variables('filename')",
+										"value": "@pipeline().parameters.filename",
 										"type": "Expression"
 									}
 								}
@@ -215,15 +215,15 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"variables": {
+				"parameters": {
 					"targetdirectory": {
-						"type": "String"
+						"type": "string"
 					},
 					"filename": {
-						"type": "String"
+						"type": "string"
 					},
 					"sourceRelativeURL": {
-						"type": "String"
+						"type": "string"
 					}
 				},
 				"annotations": []
