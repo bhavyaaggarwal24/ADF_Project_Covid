@@ -1,0 +1,27 @@
+{
+	"name": "dataset_cases_deaths",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linked_service_External_link_http",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "covid19/tree/main/ecdc_data/cases_deaths.csv/"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "<!DOCTYPE html>",
+				"type": "String"
+			}
+		]
+	}
+}
