@@ -61,15 +61,15 @@
 				]
 			}
 		],
-		"parameters": {
+		"variables": {
 			"targetdirectory": {
-				"type": "string"
+				"type": "String"
 			},
 			"filename": {
-				"type": "string"
+				"type": "String"
 			},
 			"sourceRelativeURL": {
-				"type": "string"
+				"type": "String"
 			}
 		},
 		"annotations": []
