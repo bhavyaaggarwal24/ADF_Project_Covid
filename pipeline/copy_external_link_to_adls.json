@@ -50,17 +50,44 @@
 				"inputs": [
 					{
 						"referenceName": "dataset_source_cases_deaths",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"sourceRelativeURL": {
+								"value": "@pipeline().parameters.sourceRelativeURL",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "dataset_target_cases_deaths",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"targetdirectory": {
+								"value": "@pipeline().parameters.targetdirectory",
+								"type": "Expression"
+							},
+							"filename": {
+								"value": "@pipeline().parameters.filename",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
 		],
+		"parameters": {
+			"targetdirectory": {
+				"type": "string"
+			},
+			"filename": {
+				"type": "string"
+			},
+			"sourceRelativeURL": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
