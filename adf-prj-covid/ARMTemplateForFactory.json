@@ -77,10 +77,8 @@
 							},
 							"activities": [
 								{
-									"name": "external_link_to_adls_copy1",
+									"name": "external_link_to_adls_copy",
 									"type": "Copy",
-									"state": "Inactive",
-									"onInactiveMarkAs": "Succeeded",
 									"dependsOn": [],
 									"policy": {
 										"timeout": "0.12:00:00",
