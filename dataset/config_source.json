@@ -1,0 +1,32 @@
+{
+	"name": "config_source",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sourcedatacovid",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "github_ecdc_file_list.json",
+				"container": "config"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"targetdirectory": {
+					"type": "string"
+				},
+				"sourceRelativeURL": {
+					"type": "string"
+				},
+				"fileName": {
+					"type": "string"
+				}
+			}
+		}
+	}
+}
