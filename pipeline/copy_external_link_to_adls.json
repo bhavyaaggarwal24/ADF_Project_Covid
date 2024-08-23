@@ -5,6 +5,8 @@
 			{
 				"name": "external_link_to_adls",
 				"type": "Copy",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -108,8 +110,10 @@
 				}
 			},
 			{
-				"name": "foreach_file",
+				"name": "copy_foreach_file",
 				"type": "ForEach",
+				"state": "Inactive",
+				"onInactiveMarkAs": "Succeeded",
 				"dependsOn": [
 					{
 						"activity": "Lookup_for_source_and_target",
