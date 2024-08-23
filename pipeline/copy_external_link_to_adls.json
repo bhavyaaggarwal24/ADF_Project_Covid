@@ -131,17 +131,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"targetdirectory": {
-				"type": "string"
-			},
-			"filename": {
-				"type": "string"
-			},
-			"sourceRelativeURL": {
-				"type": "string"
-			}
-		},
 		"annotations": []
 	}
 }
