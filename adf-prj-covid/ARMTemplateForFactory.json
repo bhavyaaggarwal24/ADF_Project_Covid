@@ -29,6 +29,8 @@
 					{
 						"name": "external_link_to_adls",
 						"type": "Copy",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -99,6 +101,59 @@
 								}
 							}
 						]
+					},
+					{
+						"name": "Lookup_for_source_and_target",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"dataset": {
+								"referenceName": "config_source",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "copy_foreach_file",
+						"type": "ForEach",
+						"state": "Inactive",
+						"onInactiveMarkAs": "Succeeded",
+						"dependsOn": [
+							{
+								"activity": "Lookup_for_source_and_target",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup_for_source_and_target').output",
+								"type": "Expression"
+							}
+						}
 					}
 				],
 				"policy": {
@@ -119,7 +174,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/dataset_source_cases_deaths')]",
-				"[concat(variables('factoryId'), '/datasets/dataset_target_cases_deaths')]"
+				"[concat(variables('factoryId'), '/datasets/dataset_target_cases_deaths')]",
+				"[concat(variables('factoryId'), '/datasets/config_source')]"
 			]
 		},
 		{
