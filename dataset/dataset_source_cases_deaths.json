@@ -25,11 +25,6 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "<!DOCTYPE html>",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
