@@ -92,7 +92,7 @@
 				"          country_code_2_digit,",
 				"          country_code_3_digit,",
 				"          date),",
-				"     pivotBy(indicator, ['confirmed_cases', 'deaths']),",
+				"     pivotBy(indicator, ['confirmed cases', 'deaths']),",
 				"     count = count(indicator),",
 				"     columnNaming: '$V$N',",
 				"     lateral: true,",
