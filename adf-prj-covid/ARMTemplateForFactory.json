@@ -445,12 +445,7 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": [
-					{
-						"name": "PAR1\u0015\u0004\u0015�\b\u0015�\u0006\u0015���\u0005<\u0015V\u0015\u0004\u0000\u0000�\u0004<\u000b\u0000\u0000\u0000Afghanistan\f\u0001\u000fXsia (total)\u0007\u0000\u0000\u0000Bahrain",
-						"type": "String"
-					}
-				]
+				"schema": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/proccessed')]"
@@ -701,10 +696,7 @@
 						"     partitionBy('hash', 1)) ~> indicatorsegregation",
 						"indicatorsegregation sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     input(",
-						"          {PAR1\u0015\u0004\u0015�\b\u0015�\u0006\u0015���\u0005<\u0015V\u0015\u0004\u0000\u0000�\u0004<\u000b\u0000\u0000\u0000Afghanistan\f\u0001\u000fXsia (total)\u0007\u0000\u0000\u0000Bahrain} as string",
-						"     ),",
-						"     partitionFileNames:['cases_deaths/cases_deaths.csv'],",
+						"     partitionFileNames:['cases_deaths_cases_deaths.csv'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
@@ -718,6 +710,7 @@
 						"          Confirmed_cases_count = confirmed_casescount,",
 						"          Deaths_count = deathscount",
 						"     ),",
+						"     partitionBy('hash', 1),",
 						"     format: 'parquet') ~> processedcasesdeaths"
 					]
 				}
