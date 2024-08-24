@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-prj-covid"
 		},
+		"proccessed_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'proccessed'"
+		},
 		"sourcedatacovid_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'sourcedatacovid'"
@@ -14,6 +18,10 @@
 		"linked_service_External_link_http_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://github.com/"
+		},
+		"proccessed_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dlproccesseddata.dfs.core.windows.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -42,11 +50,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"proccessed_accountKey": {
+						"value": "[parameters('proccessed_accountKey')]"
+					},
 					"sourcedatacovid_connectionString": {
 						"value": "[parameters('sourcedatacovid_connectionString')]"
 					},
 					"linked_service_External_link_http_properties_typeProperties_url": {
 						"value": "[parameters('linked_service_External_link_http_properties_typeProperties_url')]"
+					},
+					"proccessed_properties_typeProperties_url": {
+						"value": "[parameters('proccessed_properties_typeProperties_url')]"
 					}
 				}
 			},

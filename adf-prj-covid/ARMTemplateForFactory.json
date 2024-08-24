@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-prj-covid"
 		},
+		"proccessed_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'proccessed'"
+		},
 		"sourcedatacovid_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'sourcedatacovid'"
@@ -14,12 +18,63 @@
 		"linked_service_External_link_http_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://github.com/"
+		},
+		"proccessed_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://dlproccesseddata.dfs.core.windows.net/"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Execution_of_data_Flow')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Execution_of_confimed_cases_data_flow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "confirmed_cases_file_transformation",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"casesdeathsrawfile": {},
+									"lookupcountrydata": {},
+									"processedcasesdeaths": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/confirmed_cases_file_transformation')]"
+			]
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/copy_external_link_to_adls')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -205,6 +260,32 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Processed_cases_deaths')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "proccessed",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "cases_deaths.csv",
+						"folderPath": "cases_deaths",
+						"fileSystem": "proccessed"
+					},
+					"compressionCodec": "none"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/proccessed')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/config_source')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -320,6 +401,122 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/lookup_country_data')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sourcedatacovid",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "country_lookup.csv",
+						"folderPath": "lookup",
+						"container": "source"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "country",
+						"type": "String"
+					},
+					{
+						"name": "country_code_2_digit",
+						"type": "String"
+					},
+					{
+						"name": "country_code_3_digit",
+						"type": "String"
+					},
+					{
+						"name": "continent",
+						"type": "String"
+					},
+					{
+						"name": "population",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sourcedatacovid')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/raw_cases_deaths')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "sourcedatacovid",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "cases_deaths.csv",
+						"folderPath": "cases_deaths",
+						"container": "source"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "country",
+						"type": "String"
+					},
+					{
+						"name": "country_code",
+						"type": "String"
+					},
+					{
+						"name": "continent",
+						"type": "String"
+					},
+					{
+						"name": "population",
+						"type": "String"
+					},
+					{
+						"name": "indicator",
+						"type": "String"
+					},
+					{
+						"name": "daily_count",
+						"type": "String"
+					},
+					{
+						"name": "date",
+						"type": "String"
+					},
+					{
+						"name": "rate_14_day",
+						"type": "String"
+					},
+					{
+						"name": "source",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/sourcedatacovid')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/linked_service_External_link_http')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -330,6 +527,23 @@
 					"url": "[parameters('linked_service_External_link_http_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/proccessed')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('proccessed_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('proccessed_accountKey')]"
+					}
 				}
 			},
 			"dependsOn": []
@@ -376,6 +590,135 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/pipelines/copy_external_link_to_adls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/confirmed_cases_file_transformation')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "raw_cases_deaths",
+								"type": "DatasetReference"
+							},
+							"name": "casesdeathsrawfile"
+						},
+						{
+							"dataset": {
+								"referenceName": "lookup_country_data",
+								"type": "DatasetReference"
+							},
+							"name": "lookupcountrydata"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Processed_cases_deaths",
+								"type": "DatasetReference"
+							},
+							"name": "processedcasesdeaths",
+							"rejectedDataLinkedService": {
+								"referenceName": "proccessed",
+								"type": "LinkedServiceReference"
+							}
+						}
+					],
+					"transformations": [
+						{
+							"name": "lookupcountrycode"
+						},
+						{
+							"name": "selectneededcolumns"
+						},
+						{
+							"name": "filtercontinent"
+						},
+						{
+							"name": "indicatorsegregation"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          country as string,",
+						"          country_code as string,",
+						"          continent as string,",
+						"          population as string,",
+						"          indicator as string,",
+						"          daily_count as string,",
+						"          date as date,",
+						"          rate_14_day as string,",
+						"          source as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> casesdeathsrawfile",
+						"source(output(",
+						"          country as string,",
+						"          country_code_2_digit as string,",
+						"          country_code_3_digit as string,",
+						"          continent as string,",
+						"          population as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> lookupcountrydata",
+						"filtercontinent, lookupcountrydata lookup(country_code == country_code_3_digit,",
+						"     multiple: true,",
+						"     partitionBy('hash', 1),",
+						"     broadcast: 'auto')~> lookupcountrycode",
+						"lookupcountrycode select(mapColumn(",
+						"          country = casesdeathsrawfile@country,",
+						"          country_code_2_digit,",
+						"          country_code_3_digit,",
+						"          indicator,",
+						"          date",
+						"     ),",
+						"     partitionBy('hash', 1),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> selectneededcolumns",
+						"casesdeathsrawfile filter(continent==\"Asia\",",
+						"     partitionBy('hash', 1)) ~> filtercontinent",
+						"selectneededcolumns pivot(groupBy(country,",
+						"          country_code_2_digit,",
+						"          country_code_3_digit,",
+						"          date),",
+						"     pivotBy(indicator, ['confirmed_cases', 'deaths']),",
+						"     count = count(indicator),",
+						"     columnNaming: '$V$N',",
+						"     lateral: true,",
+						"     partitionBy('hash', 1)) ~> indicatorsegregation",
+						"indicatorsegregation sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'parquet',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     mapColumn(",
+						"          Country_Name = country,",
+						"          Country_code_2_digit = country_code_2_digit,",
+						"          Country_code_3_digit = country_code_3_digit,",
+						"          Reported_date = date,",
+						"          Confirmed_cases_count = confirmed_casescount,",
+						"          Deaths_count = deathscount",
+						"     ),",
+						"     partitionBy('hash', 1)) ~> processedcasesdeaths"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/raw_cases_deaths')]",
+				"[concat(variables('factoryId'), '/datasets/lookup_country_data')]",
+				"[concat(variables('factoryId'), '/datasets/Processed_cases_deaths')]",
+				"[concat(variables('factoryId'), '/linkedServices/proccessed')]"
 			]
 		}
 	]

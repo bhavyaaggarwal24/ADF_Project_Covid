@@ -5,11 +5,17 @@
 		"factoryName": {
 			"value": "adf-prj-covid"
 		},
+		"proccessed_accountKey": {
+			"value": ""
+		},
 		"sourcedatacovid_connectionString": {
 			"value": ""
 		},
 		"linked_service_External_link_http_properties_typeProperties_url": {
 			"value": "https://github.com/"
+		},
+		"proccessed_properties_typeProperties_url": {
+			"value": "https://dlproccesseddata.dfs.core.windows.net/"
 		}
 	}
 }
