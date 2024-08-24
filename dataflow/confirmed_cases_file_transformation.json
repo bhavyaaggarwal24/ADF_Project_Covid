@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "processed_cases_deaths_csv",
+						"referenceName": "proccessed_cases_deaths",
 						"type": "DatasetReference"
 					},
 					"name": "processedcasesdeaths",
@@ -100,6 +100,9 @@
 				"     partitionBy('hash', 1)) ~> indicatorsegregation",
 				"indicatorsegregation sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          {PAR1\u0015\u0004\u0015�\b\u0015�\u0006\u0015���\u0005<\u0015V\u0015\u0004\u0000\u0000�\u0004<\u000b\u0000\u0000\u0000Afghanistan\f\u0001\u000fXsia (total)\u0007\u0000\u0000\u0000Bahrain} as string",
+				"     ),",
 				"     partitionFileNames:['cases_deaths.csv'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
