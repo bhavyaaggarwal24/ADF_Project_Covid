@@ -618,9 +618,9 @@
 					],
 					"sinks": [
 						{
-							"dataset": {
-								"referenceName": "proccessed_cases_deaths",
-								"type": "DatasetReference"
+							"linkedService": {
+								"referenceName": "proccessed",
+								"type": "LinkedServiceReference"
 							},
 							"name": "processedcasesdeaths",
 							"rejectedDataLinkedService": {
@@ -696,28 +696,25 @@
 						"     partitionBy('hash', 1)) ~> indicatorsegregation",
 						"indicatorsegregation sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     format: 'delimited',",
+						"     fileSystem: 'proccessed',",
+						"     folderPath: 'cases_deaths',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false,",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     mapColumn(",
-						"          Country_Name = country,",
-						"          Country_code_2_digit = country_code_2_digit,",
-						"          Country_code_3_digit = country_code_3_digit,",
-						"          Reported_date = date,",
-						"          Confirmed_cases_count = confirmed_casescount,",
-						"          Deaths_count = deathscount",
-						"     ),",
-						"     partitionBy('hash', 1),",
-						"     format: 'parquet') ~> processedcasesdeaths"
+						"     partitionBy('hash', 1)) ~> processedcasesdeaths"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/raw_cases_deaths')]",
 				"[concat(variables('factoryId'), '/datasets/lookup_country_data')]",
-				"[concat(variables('factoryId'), '/datasets/proccessed_cases_deaths')]",
 				"[concat(variables('factoryId'), '/linkedServices/proccessed')]"
 			]
 		}
