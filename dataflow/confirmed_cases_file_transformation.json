@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Processed_cases_deaths",
+						"referenceName": "processed_cases_deaths_csv",
 						"type": "DatasetReference"
 					},
 					"name": "processedcasesdeaths",
@@ -100,7 +100,7 @@
 				"     partitionBy('hash', 1)) ~> indicatorsegregation",
 				"indicatorsegregation sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'parquet',",
+				"     partitionFileNames:['cases_deaths.csv'],",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
@@ -114,7 +114,8 @@
 				"          Confirmed_cases_count = confirmed_casescount,",
 				"          Deaths_count = deathscount",
 				"     ),",
-				"     partitionBy('hash', 1)) ~> processedcasesdeaths"
+				"     partitionBy('hash', 1),",
+				"     format: 'parquet') ~> processedcasesdeaths"
 			]
 		}
 	}
