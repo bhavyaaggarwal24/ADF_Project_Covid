@@ -618,7 +618,7 @@
 						"     partitionBy('hash', 1)) ~> indicatorsegregation",
 						"indicatorsegregation sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     partitionFileNames:['cases_deaths_cases_deaths.csv'],",
+						"     partitionFileNames:['cases_deaths/cases_deaths.csv'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
