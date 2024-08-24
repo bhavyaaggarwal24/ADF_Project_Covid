@@ -584,8 +584,7 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     partitionBy('hash', 1)) ~> casesdeathsrawfile",
+						"     ignoreNoFilesFound: false) ~> casesdeathsrawfile",
 						"source(output(",
 						"          country as string,",
 						"          country_code_2_digit as string,",
@@ -627,7 +626,7 @@
 						"     input(",
 						"          {PAR1\u0015\u0004\u0015�\b\u0015�\u0006\u0015���\u0005<\u0015V\u0015\u0004\u0000\u0000�\u0004<\u000b\u0000\u0000\u0000Afghanistan\f\u0001\u000fXsia (total)\u0007\u0000\u0000\u0000Bahrain} as string",
 						"     ),",
-						"     partitionFileNames:['cases_deaths.csv'],",
+						"     partitionFileNames:['cases_deaths/cases_deaths.csv'],",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
@@ -641,7 +640,6 @@
 						"          Confirmed_cases_count = confirmed_casescount,",
 						"          Deaths_count = deathscount",
 						"     ),",
-						"     partitionBy('hash', 1),",
 						"     format: 'parquet') ~> processedcasesdeaths"
 					]
 				}
