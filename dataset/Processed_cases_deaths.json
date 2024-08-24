@@ -1,0 +1,21 @@
+{
+	"name": "Processed_cases_deaths",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "proccessed",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "cases_deaths.csv",
+				"folderPath": "cases_deaths",
+				"fileSystem": "proccessed"
+			},
+			"compressionCodec": "none"
+		},
+		"schema": []
+	}
+}
