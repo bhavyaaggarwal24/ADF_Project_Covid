@@ -104,6 +104,14 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     mapColumn(",
+				"          country,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          Reported_date,",
+				"          confirmed_cases_count = {confirmed casescount},",
+				"          deaths_count = deathscount",
+				"     ),",
 				"     partitionBy('hash', 1)) ~> processedcasesdeaths"
 			]
 		}
