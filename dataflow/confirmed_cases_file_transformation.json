@@ -21,9 +21,9 @@
 			],
 			"sinks": [
 				{
-					"linkedService": {
-						"referenceName": "proccessed",
-						"type": "LinkedServiceReference"
+					"dataset": {
+						"referenceName": "proccessed_cases_deaths",
+						"type": "DatasetReference"
 					},
 					"name": "processedcasesdeaths",
 					"rejectedDataLinkedService": {
@@ -81,16 +81,17 @@
 				"          country_code_2_digit,",
 				"          country_code_3_digit,",
 				"          indicator,",
-				"          date",
+				"          Reported_date = date",
 				"     ),",
 				"     partitionBy('hash', 1),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectneededcolumns",
-				"casesdeathsrawfile filter(continent==\"Asia\",",
+				"casesdeathsrawfile filter(continent==\"Asia\" && country != \"Asia(total)\",",
 				"     partitionBy('hash', 1)) ~> filtercontinent",
 				"selectneededcolumns pivot(groupBy(country,",
 				"          country_code_2_digit,",
-				"          country_code_3_digit),",
+				"          country_code_3_digit,",
+				"          Reported_date),",
 				"     pivotBy(indicator, ['confirmed cases', 'deaths']),",
 				"     count = count(indicator),",
 				"     columnNaming: '$V$N',",
@@ -98,13 +99,6 @@
 				"     partitionBy('hash', 1)) ~> indicatorsegregation",
 				"indicatorsegregation sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'delimited',",
-				"     fileSystem: 'proccessed',",
-				"     folderPath: 'cases_deaths',",
-				"     columnDelimiter: ',',",
-				"     escapeChar: '\\\\',",
-				"     quoteChar: '\\\"',",
-				"     columnNamesAsHeader: false,",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
