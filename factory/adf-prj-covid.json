@@ -1,0 +1,9 @@
+{
+	"name": "adf-prj-covid",
+	"properties": {
+		"globalConfigurations": {
+			"PipelineBillingEnabled": "true"
+		}
+	},
+	"location": "eastus"
+}
